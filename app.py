@@ -143,5 +143,5 @@ def delete():
 
 if __name__ == "__main__":
     app.secret_key = '\xf4\xf3\xda\x83\xab\x0f\xf8\x92DZ\xa2\x17\xe0\xdd\xd8\xa4\xdc\xdd\xa9[l\xf9~\x1f'
-    app.debug = True
+    # app.debug = True
     app.run(host = '0.0.0.0')
