@@ -1,9 +1,11 @@
-import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Response
-from functools import wraps
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from werkzeug.security import generate_password_hash, check_password_hash
 from database_setup import List, ListItem, Base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+from functools import wraps
+import os
+
 app = Flask(__name__)
 
 engine = create_engine('sqlite:///lists.db')
@@ -14,7 +16,8 @@ dbsession = DBSession()
 
 
 def check_auth(username, password):
-    return username == 'admin' and password == 'getrektbabe'
+    pw_hash = 'pbkdf2:sha1:1000$3fr9NOwx$cb6cbfded475f7b2a426f7d56eb199fc5d205418'
+    return username == 'admin' and check_password_hash(pw_hash, password)
 
 def authenticate():
     return Response(
