@@ -18,79 +18,84 @@ DBSession = sessionmaker(bind=engine)
 # session.rollback()
 session = DBSession()
 
-
-
-
-list1 = List(title="Easter to-do list")
-
-session.add(list1)
-session.commit()
-
-listitem1 = ListItem(title="Cinema", list=list1, check=True)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Newstead Abbey", list=list1, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="The Arboretum", list=list1, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Wollaton Hall", list=list1, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Nottingham Castle", list=list1, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Nottingham Caves", list=list1, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Nottingham Galleries", list=list1, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Old Market Square", list=list1, check=False)
-session.add(listitem1)
-session.commit()
-
-list2 = List(title="Alex's check list")
-
-session.add(list2)
-session.commit()
-
-listitem1 = ListItem(title="Possible wall charger", list=list2, check=False)
-session.add(listitem1)
-session.commit()
-
-
-listitem1 = ListItem(title="Phone + charger", list=list2, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Headphones", list=list2, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Shirts", list=list2, check=False)
-session.add(listitem1)
-session.commit()
-
-listitem1 = ListItem(title="Jeans", list=list2, check=False)
-session.add(listitem1)
-session.commit()
-
 # lists = session.query(List).all()
 # print 'lists: \n'
 # for list in lists:
 #     print list.title
 #     session.delete(list)
-#     session.commit()
 #
-# items = session.query(ListItem).all()
-# for item in items:
-#     print item.title, item.list_id
+#
+# list1 = List(title="Easter to-do list")
+#
+# session.add(list1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Cinema", list=list1, check=True)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Newstead Abbey", list=list1, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="The Arboretum", list=list1, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Wollaton Hall", list=list1, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Nottingham Castle", list=list1, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Nottingham Caves", list=list1, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Nottingham Galleries", list=list1, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Old Market Square", list=list1, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# list2 = List(title="Alex's check list")
+#
+# session.add(list2)
+# session.commit()
+#
+# listitem1 = ListItem(title="Possible wall charger", list=list2, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+#
+# listitem1 = ListItem(title="Phone + charger", list=list2, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Headphones", list=list2, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Shirts", list=list2, check=False)
+# session.add(listitem1)
+# session.commit()
+#
+# listitem1 = ListItem(title="Jeans", list=list2, check=False)
+# session.add(listitem1)
+# session.commit()
+
+lists = session.query(List).all()
+print 'lists: ---###---'
+for list in lists:
+    print list.title
+    # session.delete(list)
+    # session.commit()
+
+print 'items: ---###---'
+items = session.query(ListItem).all()
+for item in items:
+    print item.title, item.list_id
