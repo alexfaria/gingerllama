@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Response
 from functools import wraps
 from sqlalchemy import create_engine
@@ -144,4 +145,5 @@ def delete():
 if __name__ == "__main__":
     app.secret_key = '\xf4\xf3\xda\x83\xab\x0f\xf8\x92DZ\xa2\x17\xe0\xdd\xd8\xa4\xdc\xdd\xa9[l\xf9~\x1f'
     # app.debug = True
-    app.run(host = '0.0.0.0', port = 5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host = '0.0.0.0', port = port)
