@@ -144,6 +144,10 @@ def delete():
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
 
+@app.route('/keeweb')
+@requires_auth
+def keeweb():
+    return render_template('keeweb.html')
 
 if __name__ == "__main__":
     app.secret_key = '\xf4\xf3\xda\x83\xab\x0f\xf8\x92DZ\xa2\x17\xe0\xdd\xd8\xa4\xdc\xdd\xa9[l\xf9~\x1f'
