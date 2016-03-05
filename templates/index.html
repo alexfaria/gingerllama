@@ -16,9 +16,9 @@
 
     <body>
 
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container"></div>
-        </nav>
+        </nav> -->
         <div class="jumbotron">
             <div class="container">
 
@@ -45,85 +45,87 @@
             <!-- lists_dic exists -->
             {% if lists %}
             {% for list in lists%}
-            <div class="panel panel-info">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left" style="padding-top: 7.5px;">
-                        {{list.title}}
-                    </h3>
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".confirm-modal" data-placement="top" title="Delete">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                    <form method="POST" action="/deletelist" class="delete-form">
-                        <input type="hidden" name="list-id" value="{{list.id}}">
-                    </form>
-                </div>
-                <div class="panel-body">
-                    <ul class="list-group">
-                        {% for item in list.listitems %}
-                        {% if item.check == False %}
-                        <li class="list-group-item">
-                            {{ item.title }}
-                            <div class="btn-group pull-right" role="group" aria-label="...">
-                                <button type="button" class="btn btn-success btn-xs check-btn" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Check">
-                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-xs delete-btn" data-toggle="modal" data-target=".confirm-modal">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                </button>
-                            </div>
-                            <form method="POST" action="/delete" class="delete-form">
-                                <input type="hidden" name="item-id" value="{{item.id}}"/>
-                                <input type="hidden" name="list-id" value="{{item.list_id}}">
-                            </form>
-                            <form method="POST" action="/check" class="check-form">
-                                <input type="hidden" name="item-id" value="{{item.id}}"/>
-                                <input type="hidden" name="list-id" value="{{item.list_id}}">
-                                <input type="hidden" name="check" value="true"/>
-                            </form>
-                        </li>
-                        {% endif %}
-                        {% if item.check == True %}
-                        <li class="list-group-item list-group-item-success">
-                            <del>{{ item.title }}</del>
-                            <div class="btn-group pull-right" role="group" aria-label="...">
-                                <button type="button" class="btn btn-info btn-xs uncheck-btn" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Uncheck">
-                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-xs delete-btn" data-toggle="modal" data-target=".confirm-modal">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                </button>
-                            </div>
-                            <form method="POST" action="/delete" class="delete-form">
-                                <input type="hidden" name="item-id" value="{{item.id}}"/>
-                                <input type="hidden" name="list-id" value="{{item.list_id}}">
-                            </form>
-                            <form method="POST" action="/check" class="check-form">
-                                <input type="hidden" name="item-id" value="{{item.id}}"/>
-                                <input type="hidden" name="list-id" value="{{item.list_id}}">
-                                <input type="hidden" name="check" value="false"/>
-                            </form>
-                        </li>
-                        {% endif %}
-                        {% endfor %}
-                        <li class="list-group-item">
-                            <form action="/new" method="post" class="form-inline">
-                                <div class="form-group">
-                                    <input type="hidden" name="list-id" value="{{list.id}}"/>
-                                    <div class="input-group">
-                                        <input type="text" name="item" class="form-control" placeholder="Add more stuff...">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-info" type="submit">Add!</button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </form>
-                        </li>
-                    </ul>
+            <div class="col-md-6">
+              <div class="panel panel-info">
+                  <div class="panel-heading clearfix">
+                      <h3 class="panel-title pull-left" style="padding-top: 7.5px;">
+                          {{list.title}}
+                      </h3>
+                      <div class="btn-group pull-right">
+                          <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".confirm-modal" data-placement="top" title="Delete">
+                              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                          </button>
+                      </div>
+                      <form method="POST" action="/deletelist" class="delete-form">
+                          <input type="hidden" name="list-id" value="{{list.id}}">
+                      </form>
+                  </div>
+                  <div class="panel-body">
+                      <ul class="list-group">
+                          {% for item in list.listitems %}
+                          {% if item.check == False %}
+                          <li class="list-group-item">
+                              {{ item.title }}
+                              <div class="btn-group pull-right" role="group" aria-label="...">
+                                  <button type="button" class="btn btn-success btn-xs check-btn" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Check">
+                                      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                  </button>
+                                  <button type="button" class="btn btn-danger btn-xs delete-btn" data-toggle="modal" data-target=".confirm-modal">
+                                      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                  </button>
+                              </div>
+                              <form method="POST" action="/delete" class="delete-form">
+                                  <input type="hidden" name="item-id" value="{{item.id}}"/>
+                                  <input type="hidden" name="list-id" value="{{item.list_id}}">
+                              </form>
+                              <form method="POST" action="/check" class="check-form">
+                                  <input type="hidden" name="item-id" value="{{item.id}}"/>
+                                  <input type="hidden" name="list-id" value="{{item.list_id}}">
+                                  <input type="hidden" name="check" value="true"/>
+                              </form>
+                          </li>
+                          {% endif %}
+                          {% if item.check == True %}
+                          <li class="list-group-item list-group-item-success">
+                              <del>{{ item.title }}</del>
+                              <div class="btn-group pull-right" role="group" aria-label="...">
+                                  <button type="button" class="btn btn-info btn-xs uncheck-btn" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Uncheck">
+                                      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                  </button>
+                                  <button type="button" class="btn btn-danger btn-xs delete-btn" data-toggle="modal" data-target=".confirm-modal">
+                                      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                  </button>
+                              </div>
+                              <form method="POST" action="/delete" class="delete-form">
+                                  <input type="hidden" name="item-id" value="{{item.id}}"/>
+                                  <input type="hidden" name="list-id" value="{{item.list_id}}">
+                              </form>
+                              <form method="POST" action="/check" class="check-form">
+                                  <input type="hidden" name="item-id" value="{{item.id}}"/>
+                                  <input type="hidden" name="list-id" value="{{item.list_id}}">
+                                  <input type="hidden" name="check" value="false"/>
+                              </form>
+                          </li>
+                          {% endif %}
+                          {% endfor %}
+                          <li class="list-group-item">
+                              <form action="/new" method="post" class="form-inline">
+                                  <div class="form-group">
+                                      <input type="hidden" name="list-id" value="{{list.id}}"/>
+                                      <div class="input-group">
+                                          <input type="text" name="item" class="form-control" placeholder="Add more stuff...">
+                                          <span class="input-group-btn">
+                                              <button class="btn btn-info" type="submit">Add!</button>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </form>
+                          </li>
+                      </ul>
 
-                </div>
-            </div>
+                  </div>
+              </div>
+          </div>
             {% endfor %}
 
             <!-- .modal -->
@@ -149,6 +151,7 @@
             <!-- /.modal -->
             {% endif %}
             <!-- /lists_dic exists -->
+            <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <form action="/newlist" method="post" class="form-inline">
@@ -161,6 +164,7 @@
                             </div>
                         </div>
                     </form>
+                    </div>
                 </div>
             </div>
         </div>
