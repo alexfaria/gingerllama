@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     // Keep Scroll position in web storage
 
-    ;
+
     (function($) {
 
         /**
@@ -34,20 +34,20 @@ $(document).ready(function() {
          */
         $.fn.scrollPosReload = function() {
             if (localStorage) {
-                var posReader = localStorage["posStorage"];
+                var posReader = localStorage.posStorage;
                 if (posReader) {
                     $(window).scrollTop(posReader);
                     localStorage.removeItem("posStorage");
                 }
                 $(this).click(function(e) {
-                    localStorage["posStorage"] = $(window).scrollTop();
+                    localStorage.posStorage = $(window).scrollTop();
                 });
 
                 return true;
             }
 
             return false;
-        }
+        };
 
         /* ================================================== */
 
