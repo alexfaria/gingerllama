@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from database_setup import List, ListItem, Base
+from models import List, ListItem, Base
 
 engine = create_engine('sqlite:///lists.db')
 # Bind the engine to the metadata of the Base class so that the
