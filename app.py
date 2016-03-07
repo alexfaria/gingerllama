@@ -132,7 +132,7 @@ def delete():
             deleteitem = dbsession.query(ListItem).filter_by(list = list, id = item_id).first()
             if deleteitem and list:
                 dbsession.delete(deleteitem)
-                dbsession.commit
+                dbsession.commit()
                 flash('Success!', 'success')
                 return redirect(url_for('index'))
 
