@@ -5,3 +5,8 @@ Uses:
 * Bootstrap
 * jQuery.countdown
 * Flaks
+* SQLite
+
+___
+Todo:
+* Change to PostgreSQL
