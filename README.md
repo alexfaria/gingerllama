@@ -1,5 +1,6 @@
 # gingerllama
-Simple website with to-do lists
+Simple website with to-do lists.
+___
 Uses:
 * Bootstrap
 * jQuery.countdown
