@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     $("#clock").countdown("2016/03/26", function(event) {
         $(this).text(event.strftime('%D days %H:%M:%S'));
     });
