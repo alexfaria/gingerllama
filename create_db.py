@@ -1,8 +1,6 @@
 from app import app
-from flask.ext.sqlalchemy import SQLAlchemy
 from models import List
 
-db = SQLAlchemy(app)
 print "APP_SETTINGS = " + app.config['APP_SETTINGS']
 db.create_all()
 

@@ -4,9 +4,11 @@ from models import List, ListItem, Base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from functools import wraps
+from flask.ext.sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
+
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
@@ -14,6 +16,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 dbsession = DBSession()
 
+db = SQLAlchemy(app)
 
 
 def check_auth(username, password):
