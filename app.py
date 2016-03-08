@@ -1,19 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Response
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import List, ListItem, db
-# from sqlalchemy.orm import sessionmaker
-# from sqlalchemy import create_engine
 from functools import wraps
 import os
 
 app = Flask(__name__)
-
-
 app.config.from_object(os.environ['APP_SETTINGS'])
-# engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
-# Base.metadata.bind = engine
-# db.session = sessionmaker(bind=engine)
-# db.session = db.session()
 
 db.init_app(app)
 
@@ -43,12 +35,6 @@ def requires_auth(f):
 @app.route('/')
 @requires_auth
 def index():
-    # lists_dic = {}
-    #for list in lists:
-    #    print list.title
-    #    lists_dic[list.title] = db.session.query(ListItem).filter_by(list_id=list.id).order_by(ListItem.title)
-    # return render_template('index.html', lists_dic = lists_dic, alert=alert)
-
     lists = db.session.query(List).all()
     return render_template('index.html', lists=lists)
 
