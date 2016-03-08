@@ -17,6 +17,9 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 db.init_app(app)
 
+with app.app_context():
+    db.create_all()
+
 def check_auth(username, password):
     pw_hash = 'pbkdf2:sha1:1000$3fr9NOwx$cb6cbfded475f7b2a426f7d56eb199fc5d205418'
 

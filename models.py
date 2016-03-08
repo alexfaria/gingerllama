@@ -32,6 +32,5 @@ class ListItem(db.Model):
     def __repr__(self):
         return "<ListItem(title=%s)>" % self.title
 
-
 # engine = create_engine('sqlite:///lists.db')
 # Base.metadata.create_all(engine)
