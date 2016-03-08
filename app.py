@@ -48,7 +48,7 @@ def newlist():
             newlist = List(title=title)
             db.session.add(newlist)
             db.session.commit()
-            flash('Success!', 'success')
+            flash('Success! Added \'%s\'' % title, 'success')
             return redirect(url_for('index'))
 
     flash('An error occurred', 'danger')
@@ -66,7 +66,7 @@ def new():
                 newitem = ListItem(title=title, list_id = list.id)
                 db.session.add(newitem)
                 db.session.commit()
-                flash('Success!', 'success')
+                flash('Success! Added \'%s\' to \'%s\'' % (title, list.title), 'success')
                 return redirect(url_for('index'))
 
 
@@ -91,7 +91,7 @@ def check():
                     checkitem.check = False
                 db.session.add(checkitem)
                 db.session.commit()
-                flash('Success!', 'success')
+                # flash('Success!', 'success')
                 return redirect(url_for('index'))
 
     flash('An error occurred', 'danger')
@@ -105,9 +105,10 @@ def deletelist():
         if id:
             deletelist = db.session.query(List).filter_by(id=id).first()
             if deletelist:
+                title = deletelist.title
                 db.session.delete(deletelist)
                 db.session.commit()
-                flash('Success!', 'success')
+                flash('Success! Deleted \'%s\'' % title, 'success')
                 return redirect(url_for('index'))
     flash('An error occurred', 'danger')
     return redirect(url_for('index'), alert=True)
@@ -122,9 +123,10 @@ def delete():
             list = db.session.query(List).filter_by(id = list_id).first()
             deleteitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
             if deleteitem and list:
+                title = deleteitem.title
                 db.session.delete(deleteitem)
                 db.session.commit()
-                flash('Success!', 'success')
+                flash('Success! Deleted \'%s\' from \'%s\'' % (title, list.title), 'success')
                 return redirect(url_for('index'))
 
     flash('An error occurred', 'danger')
