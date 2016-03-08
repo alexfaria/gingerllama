@@ -4,9 +4,11 @@ ___
 Uses:
 * Bootstrap
 * jQuery.countdown
-* Flaks
-* SQLite
+* Flask
+* Flask-SQLAlchemy
+
 
 ___
 Todo:
-* Change to PostgreSQL
+* Make 'index.html' use template inheritance
+* Add users
