@@ -6,8 +6,9 @@
 # from sqlalchemy import create_engine
 
 # Base = declarative_base()
+from flask.ext.sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 
-from app import db
 class List(db.Model):
     __tablename__ = 'list'
 
@@ -25,7 +26,7 @@ class ListItem(db.Model):
     title = db.Column(db.String(80), nullable=False)
     check = db.Column(db.Boolean, default = False)
     id = db.Column(db.Integer, primary_key=True)
-    list_id = db.Column(db.Integer, ForeignKey('list.id'))
+    list_id = db.Column(db.Integer, db.ForeignKey('list.id'))
 
 
     def __repr__(self):
