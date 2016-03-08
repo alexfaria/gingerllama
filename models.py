@@ -1,5 +1,6 @@
 import os
 import sys
+from app import app
 from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -31,7 +32,7 @@ class ListItem(Base):
         return "<ListItem(title=%s)>" % self.title
 
 
-engine = create_engine('sqlite:///lists.db')
+engine = create_engine(app.config['DATABASE_URL'])
 
 
 Base.metadata.create_all(engine)
