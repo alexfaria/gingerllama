@@ -1,11 +1,3 @@
-# import os
-# import sys
-# from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
-# from sqlalchemy.orm import relationship
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy import create_engine
-
-# Base = declarative_base()
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -32,5 +24,3 @@ class ListItem(db.Model):
     def __repr__(self):
         return "<ListItem(title=%s)>" % self.title
 
-# engine = create_engine('sqlite:///lists.db')
-# Base.metadata.create_all(engine)

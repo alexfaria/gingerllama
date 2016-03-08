@@ -1,7 +1,6 @@
 from app import app
 from models import List
 
-print "APP_SETTINGS = " + app.config['APP_SETTINGS']
 db.create_all()
 
 db.session.add(List(title = 'Check List 1'))
