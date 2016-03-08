@@ -1,38 +1,36 @@
-import os
-import sys
-from app import app
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
+# import os
+# import sys
+# from sqlalchemy import Column, ForeignKey, Integer, String, Boolean
+# from sqlalchemy.orm import relationship
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy import create_engine
 
-Base = declarative_base()
+# Base = declarative_base()
 
-class List(Base):
+from app import db
+class List(db.Model):
     __tablename__ = 'list'
 
-    title = Column(String(80), nullable=False, unique=True)
-    id = Column(Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
 
-    listitems = relationship("ListItem", backref = 'list', cascade = 'all, delete-orphan', order_by="ListItem.title")
+    listitems = db.relationship("ListItem", backref = 'list', cascade = 'all, delete-orphan', order_by="ListItem.title")
 
     def __repr__(self):
         return "<List(title=%s)>" % self.title
 
-class ListItem(Base):
+class ListItem(db.Model):
     __tablename__ = 'list_item'
 
-    title = Column(String(80), nullable=False)
-    check = Column(Boolean, default = False)
-    id = Column(Integer, primary_key=True)
-    list_id = Column(Integer, ForeignKey('list.id'))
+    title = db.Column(db.String(80), nullable=False)
+    check = db.Column(db.Boolean, default = False)
+    id = db.Column(db.Integer, primary_key=True)
+    list_id = db.Column(db.Integer, ForeignKey('list.id'))
 
 
     def __repr__(self):
         return "<ListItem(title=%s)>" % self.title
 
 
-engine = create_engine(app.config['DATABASE_URL'])
-
-
-Base.metadata.create_all(engine)
+# engine = create_engine('sqlite:///lists.db')
+# Base.metadata.create_all(engine)
