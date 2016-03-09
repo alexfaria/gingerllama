@@ -1,3 +1,4 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask.ext.sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -23,4 +24,28 @@ class ListItem(db.Model):
 
     def __repr__(self):
         return "<ListItem(title=%s)>" % self.title
+
+
+class User(db.Model):
+    __tablename__ = 'user'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    pw_hash = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(120), unique=False)
+
+    # from http://flask.pocoo.org/snippets/54/
+    def __init__(self, username, password, email):
+        self.username = username
+        self.email = email
+        self.set_password(password)
+
+    def set_password(self, password):
+        self.pw_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.pw_hash, password)
+
+    def __repr__(self):
+        return "<User(username=%s)>" % self.username
 
