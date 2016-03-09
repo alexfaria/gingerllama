@@ -20,12 +20,14 @@
         <form class="form-signin" method="POST">
             <h2 class="form-signin-heading">Please Sign Up</h2>
             <label for="inputUsername" class="sr-only">Username</label>
-            <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+            <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus maxlength="80">
             <label for="inputEmail" class="sr-only">Email address</label>
-            <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address">
+            <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" maxlength="120">
             <label for="inputPassword" class="sr-only">Password</label>
             <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <label for="inputConfirmPassword" class="sr-only">Confirm Password</label>
+            </span>
+                <label for="inputConfirmPassword" class="sr-only">Confirm Password</label>
+            </span>
             <input name="password2" type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" required>
 
             {% with messages = get_flashed_messages(with_categories = True) %}
@@ -49,6 +51,6 @@
         <script src="static/js/jquery-2.2.1.min.js"></script>
         <script src="static/js/bootstrap.min.js"></script>
         <script src="static/js/jquery.countdown.min.js"></script>
-        <script src="static/js/script.js"></script>
+        <script src="static/js/signup.js"></script>
     </body>
 </html>
