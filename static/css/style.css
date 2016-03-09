@@ -1,12 +1,36 @@
-.jumbotron{
-    background-color: #d9edf7;
-    text-align: center;
-    padding: 10px 0;
-}
-.jumbotron h2{
-    padding-bottom: 15px;
-}
-
 .list-group{
     margin-bottom: 0;
+}
+.navbar{
+  border-radius: 0;
+}
+.navbar-right{
+    padding: 0px;
+    margin-right: 0;
+}
+.navbar-right a{
+    color: inherit
+}
+.navbar-brand{
+    padding: 4px 15px;
+}
+.navbar-header{
+    padding: 0 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-right{
+      padding: 0px;
+      margin-right: 0;
+  }
+  .navbar-header p{
+      padding-left: 25px;
+  }
+  .navbar .nav{
+      padding-left: 15px;
+  }
+  .navbar-header button{
+    margin-right: 25px;
+  }
+
 }
