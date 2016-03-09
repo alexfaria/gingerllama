@@ -11,4 +11,4 @@ Uses:
 ___
 Todo:
 * Make 'index.html' use template inheritance
-* Add users
+* ~~Add users~~
