@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Response
-from werkzeug.security import generate_password_hash, check_password_hash
-from models import List, ListItem, db
+from models import List, ListItem, User, db
 from functools import wraps
 import os
 
@@ -12,35 +11,89 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-def check_auth(username, password):
-    pw_hash = 'pbkdf2:sha1:1000$3fr9NOwx$cb6cbfded475f7b2a426f7d56eb199fc5d205418'
-    return username == 'admin' and check_password_hash(pw_hash, password)
 
-def authenticate():
-    return Response(
-        'Could not verify your access level for that URL.\n'
-        'You have to login with proper credentials', 401,
-        {'WWW-Authenticate': 'Basic realm="Login Required"'})
-
-def requires_auth(f):
+def login_required(f):
     @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
-        return f(*args, **kwargs)
-    return decorated
+    def wrap(*args, **kargs):
+        if 'logged_in' in session:
+            return f(*args, **kargs)
+        else:
+            flash('You need to login first', 'info')
+            return redirect(url_for('login'))
+    return wrap
 
 
 @app.route('/')
-@requires_auth
+@login_required
 def index():
     lists = db.session.query(List).all()
     return render_template('index.html', lists=lists)
 
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    error = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if not username:
+           error = 'Invalid username'
+        if not password:
+           error = 'Invalid password'
+
+        if not error:
+            user = db.session.query(User).filter_by(username=username).first()
+            if user and user.check_password(password):
+                session['logged_in'] = True
+                session['username'] = username
+                flash('Success! You were logged in.', 'success')
+                return redirect(url_for('index'))
+            else:
+                error = 'Wrong credentials.'
+    if error:
+        flash(error, 'danger')
+    return render_template('login.html')
+
+@app.route('/signup', methods=['POST', 'GET'])
+def signup():
+    error = None
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        password2 = request.form['password2']
+        if not username:
+            error = 'username is required'
+        if not password:
+            error = 'password is required'
+        if not password2 or password != password2:
+            error = 'passwords don\'t match'
+
+        if not error:
+            if db.session.query(User).filter_by(username=username).first():
+                error = 'Account already exists'
+            else:
+                newuser = User(username = username, password=password, email = email)
+                db.session.add(newuser)
+                db.session.commit()
+                session['logged_in'] = True
+                flash('Success! You were logged in.', 'success')
+                return redirect(url_for('index'))
+
+
+    if error:
+        flash(error, 'danger')
+    return render_template('signup.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    session.pop('logged_in', None)
+    session.pop('username', None)
+    flash('Success! You were logged out', 'success')
+    return redirect(url_for('login'))
 
 @app.route('/newlist', methods=['POST'])
-@requires_auth
+@login_required
 def newlist():
     if request.method == "POST":
         title = request.form['title']
@@ -55,7 +108,7 @@ def newlist():
     return redirect(url_for('index'))
 
 @app.route('/new', methods=['POST'])
-@requires_auth
+@login_required
 def new():
     if request.method == 'POST':
         title = request.form['item']
@@ -75,7 +128,7 @@ def new():
 
 
 @app.route('/check', methods=['POST'])
-@requires_auth
+@login_required
 def check():
     if request.method == "POST":
         check = request.form['check']
@@ -98,7 +151,7 @@ def check():
     return redirect(url_for('index'))
 
 @app.route('/deletelist', methods=['POST'])
-@requires_auth
+@login_required
 def deletelist():
     if request.method == "POST":
         id = request.form['list-id']
@@ -114,7 +167,7 @@ def deletelist():
     return redirect(url_for('index'), alert=True)
 
 @app.route('/delete', methods=['POST'])
-@requires_auth
+@login_required
 def delete():
     if request.method == "POST":
         item_id = request.form['item-id']
