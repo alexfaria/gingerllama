@@ -14,13 +14,13 @@ with app.app_context():
 
 def check_auth(username, password):
     pw_hash = 'pbkdf2:sha1:1000$3fr9NOwx$cb6cbfded475f7b2a426f7d56eb199fc5d205418'
-
     return username == 'admin' and check_password_hash(pw_hash, password)
+
 def authenticate():
     return Response(
-    'Could not verify your access level for that URL.\n'
-    'You have to login with proper credentials', 401,
-    {'WWW-Authenticate': 'Basic realm="Login Required"'})
+        'Could not verify your access level for that URL.\n'
+        'You have to login with proper credentials', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
 def requires_auth(f):
     @wraps(f)
