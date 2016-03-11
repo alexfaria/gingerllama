@@ -17,6 +17,9 @@
 .navbar-header{
     padding: 0 5px;
 }
+.strike-through{
+    text-decoration: line-through;
+}
 
 @media screen and (max-width: 768px) {
   .navbar-right{

@@ -3,13 +3,27 @@ $(document).ready(function() {
         $(this).text(event.strftime('%D days %H:%M:%S'));
     });
 
-    $('.delete-btn').click(function(ev){
+    $('.delete-list-btn').click(function(ev){
         var form = $(this).parent().siblings('.delete-form');
         $('.modal .btn-danger').click(function(){
             form.submit();
         });
     });
 
+    $('.delete-btn').click(function(){
+        var form = $(this).parent().siblings('.delete-form');
+        $('.modal .btn-danger').click(function(){
+            $.ajax({
+                url: '/api/delete',
+                data: form.serialize(),
+                type: 'POST',
+                success: function(response){
+                    $('.confirm-modal').modal('toggle');
+                    form.parent().fadeOut('medium');
+                }
+            });
+        });
+    });
 
     $().alert('close');
     $('[data-toggle="tooltip"]').tooltip();
@@ -23,8 +37,7 @@ $(document).ready(function() {
             success: function(response){
                 button.toggleClass('btn-info btn-success check-btn uncheck-btn');
                 button.parent().siblings('.check-form').find('input[name="check"]').val('true');
-                button.closest('li').toggleClass('list-group-item-success');
-                button.closest('li').css('text-decoration', 'line-through');
+                button.closest('li').toggleClass('list-group-item-success strike-through');
             }
         });
     });
@@ -38,8 +51,7 @@ $(document).ready(function() {
             success: function(response){
                 button.toggleClass('btn-info btn-success check-btn uncheck-btn');
                 button.parent().siblings('.check-form').find('input[name="check"]').val('false');
-                button.closest('li').toggleClass('list-group-item-success');
-                button.closest('li').css('text-decoration', 'none');
+                button.closest('li').toggleClass('list-group-item-success strike-through');
             }
         });
     });
