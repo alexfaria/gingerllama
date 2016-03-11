@@ -2,13 +2,14 @@
 Simple website with to-do lists.
 ___
 Uses:
-* Bootstrap
-* jQuery.countdown
 * Flask
 * Flask-SQLAlchemy
+* Bootstrap
+* jQuery.countdown
+
 
 
 ___
 Todo:
-* Make 'index.html' use template inheritance
-* ~~Add users~~
+- [ ] Make 'index.html' use template inheritance
+- [x] Add users
