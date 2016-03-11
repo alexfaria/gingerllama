@@ -105,8 +105,8 @@
                           </li>
                           {% endif %}
                           {% if item.check == True %}
-                          <li class="list-group-item list-group-item-success">
-                              <del>{{ item.title }}</del>
+                          <li class="list-group-item list-group-item-success" style="text-decoration: line-through;">
+                              {{ item.title }}
                               <div class="btn-group pull-right" role="group" aria-label="...">
                                   <button type="button" class="btn btn-info btn-xs uncheck-btn" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Uncheck">
                                       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>

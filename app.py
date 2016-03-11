@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, Response
+from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, jsonify
 from models import List, ListItem, User, db
 from functools import wraps
 import os
@@ -146,6 +146,24 @@ def check():
 
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
+
+@app.route('/api/check', methods=['POST'])
+@login_required
+def api_check():
+    check = request.form.get('check', None)
+    item_id = request.form.get('item-id', None)
+    list_id = request.form.get('list-id', None)
+    if check and item_id and list_id:
+        list = db.session.query(List).filter_by(id = list_id).first()
+        checkitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
+        if checkitem and list:
+            if check == 'true':
+                checkitem.check = True
+            else:
+                checkitem.check = False
+            db.session.add(checkitem)
+            db.session.commit()
+            return jsonify(result=check, id=item_id)
 
 @app.route('/deletelist', methods=['POST'])
 @login_required
