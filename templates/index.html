@@ -71,7 +71,7 @@
                           {{list.title}}
                       </h3>
                       <div class="btn-group pull-right">
-                          <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target=".confirm-modal" data-placement="top" title="Delete">
+                          <button type="button" class="btn btn-danger btn-sm delete-list-btn" data-toggle="modal" data-target=".confirm-modal" data-placement="top" title="Delete">
                               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                           </button>
                       </div>
@@ -105,7 +105,7 @@
                           </li>
                           {% endif %}
                           {% if item.check == True %}
-                          <li class="list-group-item list-group-item-success" style="text-decoration: line-through;">
+                          <li class="list-group-item list-group-item-success strike-through">
                               {{ item.title }}
                               <div class="btn-group pull-right" role="group" aria-label="...">
                                   <button type="button" class="btn btn-info btn-xs uncheck-btn" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Uncheck">

@@ -197,6 +197,19 @@ def delete():
 
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
+@app.route('/api/delete', methods=['POST'])
+@login_required
+def api_delete():
+    item_id = request.form.get('item-id', None)
+    list_id = request.form.get('list-id', None)
+    if item_id and list_id:
+        list = db.session.query(List).filter_by(id = list_id).first()
+        deleteitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
+        if deleteitem and list:
+            title = deleteitem.title
+            db.session.delete(deleteitem)
+            db.session.commit()
+            return jsonify(result='true')
 
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port=int(app.config['PORT']))
