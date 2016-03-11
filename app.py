@@ -186,5 +186,4 @@ def delete():
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
-    port = int( app.config['PORT'] )
-    app.run(host = '0.0.0.0', port=port)
+    app.run(host = '0.0.0.0', port=int(app.config['PORT']))
