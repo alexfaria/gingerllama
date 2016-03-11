@@ -33,8 +33,8 @@ def index():
 def login():
     error = None
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.form.get('username', None)
+        password = request.form.get('password', None)
         if not username:
            error = 'Invalid username'
         if not password:
@@ -57,10 +57,10 @@ def login():
 def signup():
     error = None
     if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        password2 = request.form['password2']
+        username = request.form.get('username', None)
+        email = request.form.get('email', None)
+        password = request.form.get('password', None)
+        password2 = request.form.get('password2', None)
         if not username:
             error = 'username is required'
         if not password:
@@ -95,7 +95,7 @@ def logout():
 @app.route('/newlist', methods=['POST'])
 @login_required
 def newlist():
-    title = request.form['title']
+    title = request.form.get('title', None)
     if title:
         newlist = List(title=title)
         db.session.add(newlist)
@@ -109,8 +109,8 @@ def newlist():
 @app.route('/new', methods=['POST'])
 @login_required
 def new():
-    title = request.form['item']
-    list_id = request.form['list-id']
+    title = request.form.get('item', None)
+    list_id = request.form.get('list-id', None)
     if title and list_id:
         list = db.session.query(List).filter_by(id = list_id).first()
         if list:
@@ -128,9 +128,9 @@ def new():
 @app.route('/check', methods=['POST'])
 @login_required
 def check():
-    check = request.form['check']
-    item_id = request.form['item-id']
-    list_id = request.form['list-id']
+    check = request.form.get('check', None)
+    item_id = request.form.get('item-id', None)
+    list_id = request.form.get('list-id', None)
     if id and list_id:
         list = db.session.query(List).filter_by(id = list_id).first()
         checkitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
@@ -150,7 +150,7 @@ def check():
 @app.route('/deletelist', methods=['POST'])
 @login_required
 def deletelist():
-    id = request.form['list-id']
+    id = request.form.get('list-id', None)
     if id:
         deletelist = db.session.query(List).filter_by(id=id).first()
         if deletelist:
@@ -160,13 +160,13 @@ def deletelist():
             flash('Success! Deleted \'%s\'' % title, 'success')
             return redirect(url_for('index'))
     flash('An error occurred', 'danger')
-    return redirect(url_for('index'), alert=True)
+    return redirect(url_for('index'))
 
 @app.route('/delete', methods=['POST'])
 @login_required
 def delete():
-    item_id = request.form['item-id']
-    list_id = request.form['list-id']
+    item_id = request.form.get('item-id', None)
+    list_id = request.form.get('list-id', None)
     if item_id and list_id:
         list = db.session.query(List).filter_by(id = list_id).first()
         deleteitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
