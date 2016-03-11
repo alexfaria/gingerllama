@@ -10,19 +10,42 @@ $(document).ready(function() {
         });
     });
 
-    $('.check-btn').click(function(){
-        $(this).parent().siblings('.check-form').submit();
-    });
-    $('.uncheck-btn').click(function(){
-        $(this).parent().siblings('.check-form').submit();
-    });
-
 
     $().alert('close');
     $('[data-toggle="tooltip"]').tooltip();
 
-    // Keep Scroll position in web storage
+    $('.check-btn').click(function(){
+        button = $(this);
+        $.ajax({
+            url: '/api/check',
+            data: $(this).parent().siblings('.check-form').serialize(),
+            type: 'POST',
+            success: function(response){
+                button.toggleClass('btn-info btn-success check-btn uncheck-btn');
+                button.parent().siblings('.check-form').find('input[name="check"]').val('true');
+                button.closest('li').toggleClass('list-group-item-success');
+                button.closest('li').css('text-decoration', 'line-through');
+            }
+        });
+    });
 
+    $('.uncheck-btn').click(function(){
+        button = $(this);
+        $.ajax({
+            url: '/api/check',
+            data: $(this).parent().siblings('.check-form').serialize(),
+            type: 'POST',
+            success: function(response){
+                button.toggleClass('btn-info btn-success check-btn uncheck-btn');
+                button.parent().siblings('.check-form').find('input[name="check"]').val('false');
+                button.closest('li').toggleClass('list-group-item-success');
+                button.closest('li').css('text-decoration', 'none');
+            }
+        });
+    });
+
+
+    // Keep Scroll position in web storage
 
     (function($) {
 
