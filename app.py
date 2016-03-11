@@ -95,14 +95,13 @@ def logout():
 @app.route('/newlist', methods=['POST'])
 @login_required
 def newlist():
-    if request.method == "POST":
-        title = request.form['title']
-        if title:
-            newlist = List(title=title)
-            db.session.add(newlist)
-            db.session.commit()
-            flash('Success! Added \'%s\'' % title, 'success')
-            return redirect(url_for('index'))
+    title = request.form['title']
+    if title:
+        newlist = List(title=title)
+        db.session.add(newlist)
+        db.session.commit()
+        flash('Success! Added \'%s\'' % title, 'success')
+        return redirect(url_for('index'))
 
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
@@ -110,17 +109,16 @@ def newlist():
 @app.route('/new', methods=['POST'])
 @login_required
 def new():
-    if request.method == 'POST':
-        title = request.form['item']
-        list_id = request.form['list-id']
-        if title and list_id:
-            list = db.session.query(List).filter_by(id = list_id).first()
-            if list:
-                newitem = ListItem(title=title, list_id = list.id)
-                db.session.add(newitem)
-                db.session.commit()
-                flash('Success! Added \'%s\' to \'%s\'' % (title, list.title), 'success')
-                return redirect(url_for('index'))
+    title = request.form['item']
+    list_id = request.form['list-id']
+    if title and list_id:
+        list = db.session.query(List).filter_by(id = list_id).first()
+        if list:
+            newitem = ListItem(title=title, list_id = list.id)
+            db.session.add(newitem)
+            db.session.commit()
+            flash('Success! Added \'%s\' to \'%s\'' % (title, list.title), 'success')
+            return redirect(url_for('index'))
 
 
     flash('An error occurred', 'danger')
@@ -130,22 +128,21 @@ def new():
 @app.route('/check', methods=['POST'])
 @login_required
 def check():
-    if request.method == "POST":
-        check = request.form['check']
-        item_id = request.form['item-id']
-        list_id = request.form['list-id']
-        if id and list_id:
-            list = db.session.query(List).filter_by(id = list_id).first()
-            checkitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
-            if checkitem and list:
-                if check == 'true':
-                    checkitem.check = True
-                else:
-                    checkitem.check = False
-                db.session.add(checkitem)
-                db.session.commit()
-                # flash('Success!', 'success')
-                return redirect(url_for('index'))
+    check = request.form['check']
+    item_id = request.form['item-id']
+    list_id = request.form['list-id']
+    if id and list_id:
+        list = db.session.query(List).filter_by(id = list_id).first()
+        checkitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
+        if checkitem and list:
+            if check == 'true':
+                checkitem.check = True
+            else:
+                checkitem.check = False
+            db.session.add(checkitem)
+            db.session.commit()
+            # flash('Success!', 'success')
+            return redirect(url_for('index'))
 
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
@@ -153,34 +150,32 @@ def check():
 @app.route('/deletelist', methods=['POST'])
 @login_required
 def deletelist():
-    if request.method == "POST":
-        id = request.form['list-id']
-        if id:
-            deletelist = db.session.query(List).filter_by(id=id).first()
-            if deletelist:
-                title = deletelist.title
-                db.session.delete(deletelist)
-                db.session.commit()
-                flash('Success! Deleted \'%s\'' % title, 'success')
-                return redirect(url_for('index'))
+    id = request.form['list-id']
+    if id:
+        deletelist = db.session.query(List).filter_by(id=id).first()
+        if deletelist:
+            title = deletelist.title
+            db.session.delete(deletelist)
+            db.session.commit()
+            flash('Success! Deleted \'%s\'' % title, 'success')
+            return redirect(url_for('index'))
     flash('An error occurred', 'danger')
     return redirect(url_for('index'), alert=True)
 
 @app.route('/delete', methods=['POST'])
 @login_required
 def delete():
-    if request.method == "POST":
-        item_id = request.form['item-id']
-        list_id = request.form['list-id']
-        if item_id and list_id:
-            list = db.session.query(List).filter_by(id = list_id).first()
-            deleteitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
-            if deleteitem and list:
-                title = deleteitem.title
-                db.session.delete(deleteitem)
-                db.session.commit()
-                flash('Success! Deleted \'%s\' from \'%s\'' % (title, list.title), 'success')
-                return redirect(url_for('index'))
+    item_id = request.form['item-id']
+    list_id = request.form['list-id']
+    if item_id and list_id:
+        list = db.session.query(List).filter_by(id = list_id).first()
+        deleteitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
+        if deleteitem and list:
+            title = deleteitem.title
+            db.session.delete(deleteitem)
+            db.session.commit()
+            flash('Success! Deleted \'%s\' from \'%s\'' % (title, list.title), 'success')
+            return redirect(url_for('index'))
 
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
