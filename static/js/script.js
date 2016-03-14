@@ -3,10 +3,22 @@ $(document).ready(function() {
         $(this).text(event.strftime('%D days %H:%M:%S'));
     });
 
-    $('.delete-list-btn').click(function(ev){
+
+    $('.delete-list-btn').click(function(){
         var form = $(this).parent().siblings('.delete-form');
         $('.modal .btn-danger').click(function(){
-            form.submit();
+            $.ajax({
+                url: '/api/deletelist',
+                data: form.serialize(),
+                type: 'POST',
+                success: function(response){
+                    $('.confirm-modal').modal('toggle');
+                    form.closest('.col-md-6').fadeOut('medium');
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
         });
     });
 
@@ -23,6 +35,47 @@ $(document).ready(function() {
                 }
             });
         });
+    });
+
+    $('.new-btn').click(function(){
+        var form = $(this).closest('form');
+        if(form.find('input[name="item"]').val()){
+            $.ajax({
+                url: '/api/new',
+                data: form.serialize(),
+                type: 'POST',
+                success: function(response){
+                    console.log(response);
+                    var item = `
+
+                          <li class="list-group-item">
+                              ${response.title}
+                              <div class="btn-group pull-right" role="group" aria-label="...">
+                                  <button type="button" class="btn btn-success btn-xs check-btn" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Check">
+                                      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                  </button>
+                                  <button type="button" class="btn btn-danger btn-xs delete-btn" data-toggle="modal" data-target=".confirm-modal">
+                                      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                  </button>
+                              </div>
+                              <form method="POST" action="/delete" class="delete-form">
+                                  <input type="hidden" name="item-id" value="${response.id}"/>
+                                  <input type="hidden" name="list-id" value="${response.list_id}">
+                              </form>
+                              <form method="POST" action="/check" class="check-form">
+                                  <input type="hidden" name="item-id" value="${response.id}"/>
+                                  <input type="hidden" name="list-id" value="${response.list_id}">
+                                  <input type="hidden" name="check" value="true"/>
+                              </form>
+                          </li>
+
+                                `;
+                    form.closest('ul').prepend(item);
+                    // form.closest('ul').append(response.html);
+                }
+            });
+        }
+        return false;
     });
 
     $().alert('close');
