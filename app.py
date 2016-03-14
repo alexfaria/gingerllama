@@ -132,13 +132,15 @@ def api_check():
         list = db.session.query(List).filter_by(id = list_id).first()
         checkitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
         if checkitem and list:
+            print check
             if check == 'true':
                 checkitem.check = True
             else:
                 checkitem.check = False
+            print checkitem.check
             db.session.add(checkitem)
             db.session.commit()
-            return jsonify(status='OK')
+            return jsonify(check=checkitem.check)
 
 @app.route('/api/deletelist', methods=['POST'])
 @login_required
