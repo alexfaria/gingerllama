@@ -118,7 +118,6 @@ def api_new():
             newitem = ListItem(title=title, list_id = list.id)
             db.session.add(newitem)
             db.session.commit()
-            # return jsonify(html='<b>woop</b>')
             return jsonify(list_id=list_id, title=title, id=newitem.id)
 
 
@@ -132,12 +131,10 @@ def api_check():
         list = db.session.query(List).filter_by(id = list_id).first()
         checkitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
         if checkitem and list:
-            print check
             if check == 'true':
                 checkitem.check = True
             else:
                 checkitem.check = False
-            print checkitem.check
             db.session.add(checkitem)
             db.session.commit()
             return jsonify(check=checkitem.check)
