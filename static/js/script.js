@@ -3,6 +3,7 @@ $(document).ready(function() {
         $(this).text(event.strftime('%D days %H:%M:%S'));
     });
 
+    $().alert('close');
 
     $('.delete-list-btn').click(function(){
         var form = $(this).parent().siblings('.delete-form');
@@ -22,9 +23,9 @@ $(document).ready(function() {
         });
     });
 
-    $('.delete-btn').click(function(){
+    $(document).on('click', '.delete-btn', function(){
         var form = $(this).parent().siblings('.delete-form');
-        $('.modal .btn-danger').click(function(){
+        $('.modal').on('click', '.btn-danger', function(){
             $.ajax({
                 url: '/api/delete',
                 data: form.serialize(),
@@ -51,7 +52,7 @@ $(document).ready(function() {
                           <li class="list-group-item">
                               ${response.title}
                               <div class="btn-group pull-right" role="group" aria-label="...">
-                                  <button type="button" class="btn btn-success btn-xs check-btn" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Check">
+                                  <button type="button" class="btn btn-success btn-xs check-btn" aria-label="Left Align">
                                       <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                   </button>
                                   <button type="button" class="btn btn-danger btn-xs delete-btn" data-toggle="modal" data-target=".confirm-modal">
@@ -71,40 +72,31 @@ $(document).ready(function() {
 
                                 `;
                     form.closest('ul').prepend(item);
-                    // form.closest('ul').append(response.html);
+                    form.find('input[name="item"]').val('');
                 }
             });
         }
         return false;
     });
 
-    $().alert('close');
-    $('[data-toggle="tooltip"]').tooltip();
 
-    $('.check-btn').click(function(){
+    $(document).on('click', '.check-btn', function(){
         button = $(this);
         $.ajax({
             url: '/api/check',
             data: $(this).parent().siblings('.check-form').serialize(),
             type: 'POST',
-            success: function(response){
-                button.toggleClass('btn-info btn-success check-btn uncheck-btn');
-                button.parent().siblings('.check-form').find('input[name="check"]').val('true');
-                button.closest('li').toggleClass('list-group-item-success strike-through');
-            }
-        });
-    });
-
-    $('.uncheck-btn').click(function(){
-        button = $(this);
-        $.ajax({
-            url: '/api/check',
-            data: $(this).parent().siblings('.check-form').serialize(),
-            type: 'POST',
-            success: function(response){
-                button.toggleClass('btn-info btn-success check-btn uncheck-btn');
-                button.parent().siblings('.check-form').find('input[name="check"]').val('false');
-                button.closest('li').toggleClass('list-group-item-success strike-through');
+            success: function(r){
+                p_check = button.parent().siblings('.check-form').find('input[name="check"]').val();
+                if (p_check == 'true' && r.check===true){
+                    button.toggleClass('btn-info btn-success');
+                    button.parent().siblings('.check-form').find('input[name="check"]').val('false');
+                    button.closest('li').toggleClass('list-group-item-success strike-through');
+                } else if (p_check == 'false' && r.check === false){
+                    button.toggleClass('btn-info btn-success');
+                    button.parent().siblings('.check-form').find('input[name="check"]').val('true');
+                    button.closest('li').toggleClass('list-group-item-success strike-through');
+                }
             }
         });
     });
