@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, jsonify
 from models import List, ListItem, User, db
+from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, jsonify
 from functools import wraps
 import os
 
@@ -106,9 +106,10 @@ def newlist():
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
 
-@app.route('/new', methods=['POST'])
+
+@app.route('/api/new', methods=['POST'])
 @login_required
-def new():
+def api_new():
     title = request.form.get('item', None)
     list_id = request.form.get('list-id', None)
     if title and list_id:
@@ -117,35 +118,9 @@ def new():
             newitem = ListItem(title=title, list_id = list.id)
             db.session.add(newitem)
             db.session.commit()
-            flash('Success! Added \'%s\' to \'%s\'' % (title, list.title), 'success')
-            return redirect(url_for('index'))
+            # return jsonify(html='<b>woop</b>')
+            return jsonify(list_id=list_id, title=title, id=newitem.id)
 
-
-    flash('An error occurred', 'danger')
-    return redirect(url_for('index'))
-
-
-@app.route('/check', methods=['POST'])
-@login_required
-def check():
-    check = request.form.get('check', None)
-    item_id = request.form.get('item-id', None)
-    list_id = request.form.get('list-id', None)
-    if id and list_id:
-        list = db.session.query(List).filter_by(id = list_id).first()
-        checkitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
-        if checkitem and list:
-            if check == 'true':
-                checkitem.check = True
-            else:
-                checkitem.check = False
-            db.session.add(checkitem)
-            db.session.commit()
-            # flash('Success!', 'success')
-            return redirect(url_for('index'))
-
-    flash('An error occurred', 'danger')
-    return redirect(url_for('index'))
 
 @app.route('/api/check', methods=['POST'])
 @login_required
@@ -163,11 +138,11 @@ def api_check():
                 checkitem.check = False
             db.session.add(checkitem)
             db.session.commit()
-            return jsonify(result=check, id=item_id)
+            return jsonify(status='OK')
 
-@app.route('/deletelist', methods=['POST'])
+@app.route('/api/deletelist', methods=['POST'])
 @login_required
-def deletelist():
+def api_deletelist():
     id = request.form.get('list-id', None)
     if id:
         deletelist = db.session.query(List).filter_by(id=id).first()
@@ -175,28 +150,8 @@ def deletelist():
             title = deletelist.title
             db.session.delete(deletelist)
             db.session.commit()
-            flash('Success! Deleted \'%s\'' % title, 'success')
-            return redirect(url_for('index'))
-    flash('An error occurred', 'danger')
-    return redirect(url_for('index'))
+            return jsonify(status='ok')
 
-@app.route('/delete', methods=['POST'])
-@login_required
-def delete():
-    item_id = request.form.get('item-id', None)
-    list_id = request.form.get('list-id', None)
-    if item_id and list_id:
-        list = db.session.query(List).filter_by(id = list_id).first()
-        deleteitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
-        if deleteitem and list:
-            title = deleteitem.title
-            db.session.delete(deleteitem)
-            db.session.commit()
-            flash('Success! Deleted \'%s\' from \'%s\'' % (title, list.title), 'success')
-            return redirect(url_for('index'))
-
-    flash('An error occurred', 'danger')
-    return redirect(url_for('index'))
 @app.route('/api/delete', methods=['POST'])
 @login_required
 def api_delete():
