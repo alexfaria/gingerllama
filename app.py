@@ -29,6 +29,7 @@ def index():
     lists = db.session.query(List).all()
     return render_template('index.html', lists=lists)
 
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
@@ -52,6 +53,7 @@ def login():
     if error:
         flash(error, 'danger')
     return render_template('login.html')
+
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
@@ -84,6 +86,7 @@ def signup():
         flash(error, 'danger')
     return render_template('signup.html')
 
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -91,6 +94,7 @@ def logout():
     session.pop('username', None)
     flash('Success! You were logged out', 'success')
     return redirect(url_for('login'))
+
 
 @app.route('/newlist', methods=['POST'])
 @login_required
@@ -139,6 +143,7 @@ def api_check():
             db.session.commit()
             return jsonify(check=checkitem.check)
 
+
 @app.route('/api/deletelist', methods=['POST'])
 @login_required
 def api_deletelist():
@@ -150,6 +155,7 @@ def api_deletelist():
             db.session.delete(deletelist)
             db.session.commit()
             return jsonify(status='ok')
+
 
 @app.route('/api/delete', methods=['POST'])
 @login_required
@@ -164,6 +170,79 @@ def api_delete():
             db.session.delete(deleteitem)
             db.session.commit()
             return jsonify(result='true')
+
+
+@app.route('/new', methods=['POST'])
+@login_required
+def new():
+    title = request.form.get('item', None)
+    list_id = request.form.get('list-id', None)
+    if title and list_id:
+        list = db.session.query(List).filter_by(id = list_id).first()
+        if list:
+            newitem = ListItem(title=title, list_id = list.id)
+            db.session.add(newitem)
+            db.session.commit()
+            flash('Success! Added \'%s\' to \'%s\'' % (title, list.title), 'success')
+            return redirect(url_for('index'))
+    flash('An error occurred', 'danger')
+    return redirect(url_for('index'))
+
+
+@app.route('/check', methods=['POST'])
+@login_required
+def check():
+    check = request.form.get('check', None)
+    item_id = request.form.get('item-id', None)
+    list_id = request.form.get('list-id', None)
+    if id and list_id:
+        list = db.session.query(List).filter_by(id = list_id).first()
+        checkitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
+        if checkitem and list:
+            if check == 'true':
+                checkitem.check = True
+            else:
+                checkitem.check = False
+                db.session.add(checkitem)
+                db.session.commit()
+                return redirect(url_for('index'))
+    flash('An error occurred', 'danger')
+    return redirect(url_for('index'))
+
+
+@app.route('/delete', methods=['POST'])
+@login_required
+def delete():
+    item_id = request.form.get('item-id', None)
+    list_id = request.form.get('list-id', None)
+    if item_id and list_id:
+        list = db.session.query(List).filter_by(id = list_id).first()
+        deleteitem = db.session.query(ListItem).filter_by(list = list, id = item_id).first()
+        if deleteitem and list:
+            title = deleteitem.title
+            db.session.delete(deleteitem)
+            db.session.commit()
+            flash('Success! Deleted \'%s\' from \'%s\'' % (title, list.title), 'success')
+            return redirect(url_for('index'))
+    flash('An error occurred', 'danger')
+    return redirect(url_for('index'))
+
+
+@app.route('/deletelist', methods=['POST'])
+@login_required
+def deletelist():
+    id = request.form.get('list-id', None)
+    if id:
+        deletelist = db.session.query(List).filter_by(id=id).first()
+        if deletelist:
+            title = deletelist.title
+            db.session.delete(deletelist)
+            db.session.commit()
+            flash('Success! Deleted \'%s\'' % title, 'success')
+            return redirect(url_for('index'))
+    flash('An error occurred', 'danger')
+    return redirect(url_for('index'))
+
 
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port=int(app.config['PORT']))
