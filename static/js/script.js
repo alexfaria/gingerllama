@@ -12,6 +12,7 @@ $(document).ready(function() {
                 url: '/api/deletelist',
                 data: form.serialize(),
                 type: 'POST',
+                cache: false,
                 success: function(response){
                     $('.confirm-modal').modal('toggle');
                     form.closest('.col-md-6').fadeOut('medium');
@@ -30,6 +31,7 @@ $(document).ready(function() {
                 url: '/api/delete',
                 data: form.serialize(),
                 type: 'POST',
+                cache: false,
                 success: function(response){
                     $('.confirm-modal').modal('toggle');
                     form.parent().fadeOut('medium');
@@ -45,6 +47,7 @@ $(document).ready(function() {
                 url: '/api/new',
                 data: form.serialize(),
                 type: 'POST',
+                cache: false,
                 success: function(response){
                     console.log(response);
                     var item = `
@@ -86,6 +89,7 @@ $(document).ready(function() {
             url: '/api/check',
             data: $(this).parent().siblings('.check-form').serialize(),
             type: 'POST',
+            cache: false,
             success: function(r){
                 p_check = button.parent().siblings('.check-form').find('input[name="check"]').val();
                 if (p_check == 'true' && r.check===true){
