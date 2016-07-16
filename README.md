@@ -13,3 +13,12 @@ ___
 Todo:
 - [ ] Make 'index.html' use template inheritance
 - [x] Add users
+
+
+
+___
+Example Configuration:
+DATABASE_URL="sqlite:///lists.db"
+APP_SETTINGS="config.ProdConfig"
+PORT=5000
+SECRET_KEY="jfeuieahlfvin"
