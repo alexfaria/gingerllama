@@ -1,5 +1,5 @@
 lotsoflists.py
-lists.db
+*.db
 Session.vim
 # Byte-compiled / optimized / DLL files
 __pycache__/
