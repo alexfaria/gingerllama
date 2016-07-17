@@ -26,7 +26,8 @@ def login_required(f):
 @app.route('/')
 @login_required
 def index():
-    lists = db.session.query(List).all()
+    user = db.session.query(User).filter_by(username=session['username']).first()
+    lists = user.lists
     return render_template('index.html', lists=lists)
 
 
@@ -78,6 +79,7 @@ def signup():
                 db.session.add(newuser)
                 db.session.commit()
                 session['logged_in'] = True
+                session['username'] = username
                 flash('Success! You were logged in.', 'success')
                 return redirect(url_for('index'))
 
@@ -100,8 +102,9 @@ def logout():
 @login_required
 def newlist():
     title = request.form.get('title', None)
-    if title:
-        newlist = List(title=title)
+    user_id = db.session.query(User).filter_by(username=session['username']).first().id
+    if title and user_id:
+        newlist = List(title=title, user_id=user_id)
         db.session.add(newlist)
         db.session.commit()
         flash('Success! Added \'%s\'' % title, 'success')

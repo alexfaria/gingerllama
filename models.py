@@ -5,10 +5,11 @@ db = SQLAlchemy()
 class List(db.Model):
     __tablename__ = 'list'
 
-    title = db.Column(db.String(80), nullable=False, unique=True)
+    title = db.Column(db.String(80), nullable=False, unique=False)
     id = db.Column(db.Integer, primary_key=True)
 
     listitems = db.relationship("ListItem", backref = 'list', cascade = 'all, delete-orphan', order_by="ListItem.title")
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return "<List(title=%s)>" % self.title
@@ -33,6 +34,8 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     pw_hash = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(120), unique=False)
+
+    lists = db.relationship("List", backref='user', cascade = 'all, delete-orphan', order_by="List.title")
 
     # from http://flask.pocoo.org/snippets/54/
     def __init__(self, username, password, email):
