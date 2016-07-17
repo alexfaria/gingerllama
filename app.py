@@ -4,7 +4,7 @@ from functools import wraps
 import os
 
 app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
+app.config.from_object(os.getenv('APP_SETTINGS', 'config.ProdConfig'))
 
 db.init_app(app)
 
