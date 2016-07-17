@@ -1,5 +1,6 @@
 from models import List, ListItem, User, db
 from flask import Flask, render_template, request, redirect, url_for, session, flash, Response, jsonify
+from werkzeug.contrib.fixers import ProxyFix
 from functools import wraps
 import os
 
@@ -246,6 +247,6 @@ def deletelist():
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
 
-
+app.wsgi_app = ProxyFix(app.wsgi_app)
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port=int(app.config['PORT']))
