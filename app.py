@@ -28,8 +28,12 @@ def login_required(f):
 @login_required
 def index():
     user = db.session.query(User).filter_by(username=session['username']).first()
-    lists = user.lists
-    return render_template('index.html', lists=lists)
+    if user:
+        lists = user.lists
+        return render_template('index.html', lists=lists)
+    # invalid session cookie
+    session.clear()
+    return redirect(url_for('login'))
 
 
 @app.route('/login', methods=['POST', 'GET'])
