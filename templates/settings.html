@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+        <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
+        <title>GingerLlama</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="static/css/style.css" rel="stylesheet">
+    </head>
+
+
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <p class="navbar-text" id="clock">Countdown</p>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Logged in as {{session['username']}} <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{url_for('index')}}">Homepage</a></li>
+                  <li><a href="{{url_for('logout')}}">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+
+    <div class="container">
+      <div class="col-md-12">
+        {% with messages = get_flashed_messages(with_categories = True) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </div>
+
+
+      <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">
+                    Change Password
+                </h3>
+            </div>
+            <div class="panel-body">
+              <form class="form">
+                <div class="form-group">
+                  <label class="sr-only" for="password">Old Password</label>
+                  <input type="password" class="form-control" id="password" placeholder="Old Password">
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="new-password">New Password</label>
+                  <input type="password" class="form-control" id="new-password" placeholder="New Password">
+                </div>
+                <div class="form-group">
+                  <label class="sr-only" for="new-password2">Confirm New Password</label>
+                  <input type="password" class="form-control" id="new-password2" placeholder="Confirm New Password">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">
+                    Change Username
+                </h3>
+            </div>
+            <div class="panel-body">
+              <form class="form">
+                <div class="form-group">
+                  <label class="sr-only" for="username">Username</label>
+                  <input type="text" class="form-control" id="username" value="{{username}}">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="panel panel-danger">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left" style="padding-top: 7.5px;">
+                    Delete Account
+                </h3>
+            </div>
+            <div class="panel-body">
+              <p>Please type in your username to confirm.</p>
+              <form class="form username-confirm" autocomplete="off">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="delete-username" value="" placeholder="Username">
+                </div>
+                <input id="hidden-username" type="hidden" value="{{username}}">
+                <button disabled type="submit" class="btn btn-danger">Delete Account</button>
+              </form>
+            </div>
+        </div>
+      </div>
+
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="static/js/jquery-2.2.1.min.js"></script>
+        <script src="static/js/bootstrap.min.js"></script>
+        <script src="static/js/jquery.countdown.min.js"></script>
+        <script src="static/js/settings.js"></script>
+</body>
+</html>

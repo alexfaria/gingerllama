@@ -256,6 +256,11 @@ def deletelist():
     flash('An error occurred', 'danger')
     return redirect(url_for('index'))
 
+@app.route('/settings')
+@login_required
+def settings():
+    return render_template('settings.html', username=session['username'])
+
 app.wsgi_app = ProxyFix(app.wsgi_app)
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port=int(app.config['PORT']))
