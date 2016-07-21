@@ -20,9 +20,17 @@
         <form class="form-signin" method="POST">
             <h2 class="form-signin-heading">Create an account</h2>
             <label for="inputUsername" class="sr-only">Username</label>
+            {% if username %}
+            <input name="username" type="text" id="inputUsername" class="form-control" value="{{username}}" required autofocus maxlength="80">
+            {% else %}
             <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus maxlength="80">
+            {% endif %}
             <label for="inputEmail" class="sr-only">Email address</label>
+            {% if email %}
+            <input name="email" type="email" id="inputEmail" class="form-control" value="{{email}}" maxlength="120">
+            {% else %}
             <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address (not required)" maxlength="120">
+            {% endif %}
             <label for="inputPassword" class="sr-only">Password</label>
             <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
             </span>

@@ -20,7 +20,11 @@
         <form class="form-signin" method="POST">
             <h2 class="form-signin-heading">Please Login</h2>
             <label for="inputUsername" class="sr-only">Username</label>
+            {%if username%}
+            <input name="username" type="text" id="inputUsername" class="form-control" value="{{username}}" required autofocus>
+            {%else%}
             <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+            {%endif%}
             <label for="inputPassword" class="sr-only">Password</label>
             <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
             {% with messages = get_flashed_messages(with_categories = True) %}
@@ -37,7 +41,7 @@
             {% endwith %}
             <div class="checkbox">
               <label>
-                <input type="checkbox" value="remember-me"> Remember me
+                <input checked type="checkbox" name="remember-me" value="true"> Remember me
               </label>
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>

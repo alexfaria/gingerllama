@@ -35,9 +35,11 @@ def index():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
+    username = None
     if request.method == 'POST':
         username = request.form.get('username', None)
         password = request.form.get('password', None)
+        remember = request.form.get('remember-me', None)
         if not username:
            error = 'Invalid username'
         if not password:
@@ -48,18 +50,22 @@ def login():
             if user and user.check_password(password):
                 session['logged_in'] = True
                 session['username'] = username
+                if remember:
+                    session.permanent = True
                 flash('Success! You were logged in.', 'success')
                 return redirect(url_for('index'))
             else:
                 error = 'Wrong credentials.'
     if error:
         flash(error, 'danger')
-    return render_template('login.html')
+    return render_template('login.html', username=username)
 
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     error = None
+    email = None
+    username = None
     if request.method == 'POST':
         username = request.form.get('username', None)
         email = request.form.get('email', None)
@@ -84,10 +90,9 @@ def signup():
                 flash('Success! You were logged in.', 'success')
                 return redirect(url_for('index'))
 
-
     if error:
         flash(error, 'danger')
-    return render_template('signup.html')
+    return render_template('signup.html', username=username, email=email)
 
 
 @app.route('/logout')
