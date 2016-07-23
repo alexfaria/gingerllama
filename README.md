@@ -14,7 +14,7 @@ Uses:
 ___
 Todo:
 - [ ] Make 'index.html' use template inheritance
-- [ ] Function account settings page
+- [ ] Functioning account settings page
 - [x] Add users
 
 
