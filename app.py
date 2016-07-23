@@ -261,6 +261,29 @@ def deletelist():
 def settings():
     return render_template('settings.html', username=session['username'])
 
+
+@app.route('/api/changepassword', methods=['POST'])
+@login_required
+def api_changepassword():
+    error = None 
+    success = None
+    user = db.session.query(User).filter_by(username = session['username']).first()
+    old_password = request.form.get('password', None)
+    password1 = request.form.get('new-password1', None)
+    password2 = request.form.get('new-password2', None)
+    if user and old_password and password1 and password2:
+        if user.check_password(old_password):
+            if password1 == password2 and old_password != password1:
+                user.set_password(password1)
+                db.session.add(user)
+                db.session.commit()
+                success = "Password changed."
+            else:
+                error = "Passwords don\'t match." 
+        else:
+            error = "Wrong password."
+    return jsonify(error=error, success=success)
+
 app.wsgi_app = ProxyFix(app.wsgi_app)
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port=int(app.config['PORT']))
